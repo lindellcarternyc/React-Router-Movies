@@ -28,13 +28,16 @@ export default function App () {
 
   const addToSavedList = id => {
     // This is stretch. Prevent the same movie from being "saved" more than once
+    if (!saved.includes(id)) {
+      setSaved([...saved, id])
+    }
   };
 
   return (
     <div>
-      <SavedList list={[ /* This is stretch */]} />
+      <SavedList list={movieList.filter(movie => saved.includes(movie.id))} />
       <Route path="/" exact component={() => <MovieList movies={movieList} />} />
-      <Route path="/movies/:id" component={Movie}/>
+      <Route path="/movies/:id" component={() => <Movie saveMovie={addToSavedList} />} />
     </div>
   );
 }
